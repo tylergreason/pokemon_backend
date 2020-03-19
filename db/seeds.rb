@@ -10,15 +10,23 @@ natures.each do |nature|
 end
 
 
-bulbasaur = PokeApi.get(pokemon: 'bulbasaur')
-name = bulbasaur.name 
-number = bulbasaur.id
+
+fetchPokemon = PokeApi.get(pokemon: 'bulbasaur')
+name = fetchPokemon.name 
+number = fetchPokemon.id
 newPokemon = Pokemon.create(name:name,number:number)
+# nature 
 newPokemon.natures << Nature.all.sample
-bulbasaur.types.each do |type| 
+# types
+fetchPokemon.types.each do |type| 
     newPokemon.types << Type.find_or_create_by(name: type.type.name)
 end
-
+# abilities
+abilities =  fetchPokemon.abilities
+abilities.each do |result| 
+    new_ability = Ability.find_or_create_by(name:result.ability.name)
+    newPokemon.abilities << new_ability
+end
 # types 
 types = PokeApi.get(:type).results
 types.each do |type| 

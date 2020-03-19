@@ -7,4 +7,7 @@ class Pokemon < ApplicationRecord
 
     has_many :pokemon_natures, dependent: :destroy 
     has_many :natures, through: :pokemon_natures
+
+    has_many :pokemon_abilities, dependent: :destroy 
+    has_many :abilities, through: :pokemon_abilities
 end
