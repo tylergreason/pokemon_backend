@@ -1,0 +1,2 @@
+class PokemonNaturesController < ApplicationController
+end
