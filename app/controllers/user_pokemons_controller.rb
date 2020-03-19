@@ -1,0 +1,2 @@
+class UserPokemonsController < ApplicationController
+end
