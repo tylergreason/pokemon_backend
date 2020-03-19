@@ -1,7 +1,19 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+Pokemon.delete_all
+# Type.delete_all 
+
+
+bulbasaur = PokeApi.get(pokemon: 'bulbasaur')
+name = bulbasaur.name 
+number = bulbasaur.id
+newPokemon = Pokemon.create(name:name,number:number)
+bulbasaur.types.each do |type| 
+    newPokemon.types << Type.find_or_create_by(name: type.type.name)
+end
+
+
+
+types = PokeApi.get(:type).results
+types.each do |type| 
+    name = type.name 
+    Type.find_or_create_by(name:name)
+end
