@@ -10,4 +10,7 @@ class Pokemon < ApplicationRecord
 
     has_many :pokemon_abilities, dependent: :destroy 
     has_many :abilities, through: :pokemon_abilities
+
+    has_many :pokemon_moves, dependent: :destroy 
+    has_many :moves, through: :pokemon_moves
 end

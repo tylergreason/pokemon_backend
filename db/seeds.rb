@@ -14,25 +14,33 @@ end
 fetchPokemon = PokeApi.get(pokemon: 'bulbasaur')
 name = fetchPokemon.name 
 number = fetchPokemon.id
-newPokemon = Pokemon.create(name:name,number:number)
-# nature 
-newPokemon.natures << Nature.all.sample
-# types
-fetchPokemon.types.each do |type| 
-    newPokemon.types << Type.find_or_create_by(name: type.type.name)
-end
-# abilities
-abilities =  fetchPokemon.abilities
-abilities.each do |result| 
-    new_ability = Ability.find_or_create_by(name:result.ability.name)
-    newPokemon.abilities << new_ability
-end
+new_pokemon = Pokemon.create(name:name,number:number)
 # types 
 types = PokeApi.get(:type).results
 types.each do |type| 
     name = type.name 
     Type.find_or_create_by(name:name)
 end
+# nature 
+new_pokemon.natures << Nature.all.sample
+# types
+fetchPokemon.types.each do |type| 
+    new_pokemon.types << Type.find_or_create_by(name: type.type.name)
+end
+# abilities
+abilities =  fetchPokemon.abilities
+abilities.each do |result| 
+    new_ability = Ability.find_or_create_by(name:result.ability.name)
+    new_pokemon.abilities << new_ability
+end
+# moves 
+moves = fetchPokemon.moves 
+moves.each do |result| 
+    new_move = Move.find_or_create_by(name: result.move.name)
+    new_pokemon.moves << new_move
+end
+
+
 
 # user 
 new_user = User.create(email: 'test@mail.com',password:'test')
