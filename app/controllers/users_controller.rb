@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
     def create 
-        byebug
+        # byebug
         @user = User.create(user_params)
+        token = JWT.encode({ :user_id => @user.id }, ENV['SECRET'])
+        render :json => { :token => token } , :status => :ok
     end
 
     
