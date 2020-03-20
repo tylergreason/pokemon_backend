@@ -15,7 +15,7 @@ types.each do |type|
     Type.find_or_create_by(name:name)
 end
 
-5.times do 
+2.times do 
     fetch_pokemon = PokeApi.get(pokemon: rand(150)+1)
     name = fetch_pokemon.name 
     number = fetch_pokemon.id
@@ -45,7 +45,7 @@ end
 
 
 # user 
-new_user = User.create(email: 'test@mail.com',password:'test')
+new_user = User.create(email:'test@mail.com', password:'test')
 # give user pokemon 
 # remove this association 
 new_user.pokemons << Pokemon.all.first
