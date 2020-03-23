@@ -21,7 +21,8 @@ end
     fetch_pokemon = PokeApi.get(pokemon: rand(150)+1)
     name = fetch_pokemon.name 
     number = fetch_pokemon.id
-    new_pokemon = Pokemon.find_or_create_by(name:name,number:number)
+    image_url = fetch_pokemon.sprites.front_default
+    new_pokemon = Pokemon.find_or_create_by(name:name,number:number,image_url:image_url)
     # nature 
     new_pokemon.natures << Nature.all.sample
     # types
