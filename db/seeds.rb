@@ -48,4 +48,4 @@ end
 new_user = User.create(email:'test@mail.com', password:'test')
 # give user pokemon 
 # remove this association 
-new_user.pokemons << Pokemon.all.first
+# new_user.pokemons << Pokemon.all.first
