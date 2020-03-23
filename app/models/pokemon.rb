@@ -18,6 +18,13 @@ class Pokemon < ApplicationRecord
     has_many :teams, through: :pokemon_teams
 
     def active_moves 
-        PokemonMove.all.find_by(pokemon_id: self.id,active:true)
+        PokemonMove.all.where(pokemon_id: self.id,active:true)
+        # ['a','b','c']
+    end
+
+    def set_move_active(move)
+        pokemon_move = PokemonMove.find_by(pokemon_id: self.id, move_id: move.id)
+        pokemon_move.active = true
+        pokemon_move.save 
     end
 end

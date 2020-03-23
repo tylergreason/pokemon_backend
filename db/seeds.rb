@@ -1,5 +1,7 @@
+require 'faker'
 Pokemon.delete_all
 User.delete_all
+Team.delete_all 
 
 
 # natures 
@@ -15,7 +17,7 @@ types.each do |type|
     Type.find_or_create_by(name:name)
 end
 
-2.times do 
+9.times do 
     fetch_pokemon = PokeApi.get(pokemon: rand(150)+1)
     name = fetch_pokemon.name 
     number = fetch_pokemon.id
@@ -40,12 +42,25 @@ end
     end
 end
 
-# fetch_pokemon = PokeApi.get(pokemon: 'bulbasaur')
-
-
-
 # user 
 new_user = User.create(email:'test@mail.com', password:'test')
-# give user pokemon 
-# remove this association 
-# new_user.pokemons << Pokemon.all.first
+
+# create a new team, then give that team to the test user 
+3.times do 
+    new_team = Team.create(name: Faker::Team.name, description: Faker::Lorem.words(number: 10), user_id: User.all.sample.id)
+    3.times do 
+        new_team.pokemons << Pokemon.all.sample
+    end
+    new_user.teams << new_team
+end
+
+# make 4 of each pokemon's moves active 
+Pokemon.all.each do |pokemon| 
+    pokemon.set_move_active(pokemon.moves[0])
+    pokemon.set_move_active(pokemon.moves[1])
+    pokemon.set_move_active(pokemon.moves[2])
+    pokemon.set_move_active(pokemon.moves[3])
+    # 4.times do |t|
+    #     pokemon.set_move_active(pokemon.moves[t])
+    # end
+end

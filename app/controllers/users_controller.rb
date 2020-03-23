@@ -6,7 +6,6 @@ class UsersController < ApplicationController
         render :json => { :token => token } , :status => :ok
     end
 
-    
     private
     def user_params
         # where require(:user) sets user to be the key you're looking for 
