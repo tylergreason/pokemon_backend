@@ -18,8 +18,11 @@ class Pokemon < ApplicationRecord
     has_many :teams, through: :pokemon_teams
 
     def active_moves 
-        PokemonMove.all.where(pokemon_id: self.id,active:true)
-        # ['a','b','c']
+        moves = []
+        PokemonMove.all.where(pokemon_id: self.id,active:true).each do |move| 
+            moves << Move.find(move.move_id)
+        end
+        moves
     end
 
     def set_move_active(move)
