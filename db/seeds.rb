@@ -1,5 +1,5 @@
 require 'faker'
-Pokemon.delete_all
+# Pokemon.delete_all
 User.delete_all
 Team.delete_all 
 
@@ -48,9 +48,12 @@ new_user = User.create(email:'test@mail.com', password:'test')
 
 # create a new team, then give that team to the test user 
 3.times do 
-    new_team = Team.create(name: Faker::Team.name, description: Faker::Lorem.sentence(word_count: 3), user_id: User.all.sample.id)
+    new_team = Team.create(name: Faker::Team.name, description: "Desc: " + Faker::Lorem.sentence(word_count: 3), user_id: User.all.sample.id)
     3.times do 
-        new_team.pokemons << Pokemon.all.sample
+        random_pokemon = Pokemon.all.sample 
+        if !new_team.pokemons.include?(random_pokemon)
+            new_team.pokemons << Pokemon.all.sample
+        end
     end
     new_user.teams << new_team
 end
