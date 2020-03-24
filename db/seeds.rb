@@ -58,13 +58,23 @@ new_user = User.create(email:'test@mail.com', password:'test')
     new_user.teams << new_team
 end
 
+
+# change all active moves to non active before activating more 
+# PokemonMove.all.each {|move|
+#     move.active = false 
+#     move.save
+# }
 # make 4 of each pokemon's moves active 
 Pokemon.all.each do |pokemon| 
-    pokemon.set_move_active(pokemon.moves[0])
-    pokemon.set_move_active(pokemon.moves[1])
-    pokemon.set_move_active(pokemon.moves[2])
-    pokemon.set_move_active(pokemon.moves[3])
+    3.times do |time| 
+        if pokemon.moves[time] != nil
+            pokemon.set_move_active(pokemon.moves[time])
+        end
+    end
+end
+    # pokemon.set_move_active(pokemon.moves[1])
+    # pokemon.set_move_active(pokemon.moves[2])
+    # pokemon.set_move_active(pokemon.moves[3])
     # 4.times do |t|
     #     pokemon.set_move_active(pokemon.moves[t])
     # end
-end

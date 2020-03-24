@@ -4,7 +4,7 @@ class PokemonsController < ApplicationController
     def index 
         puts "this is current user:"
         puts current_user
-        pokemons = Pokemon.all
+        pokemons = Pokemon.all.sort_by {|pokemon| pokemon.number}
         # render :json => pokemons, :status => :ok
         render :json => pokemons, :include => [:types,:moves,:abilities,:natures,:active_moves], :status => :ok 
         # byebug

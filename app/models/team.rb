@@ -5,7 +5,7 @@ class Team < ApplicationRecord
     has_many :pokemon_teams, dependent: :destroy 
     has_many :pokemons, through: :pokemon_teams
 
-    def update_pokemon(new_pokemons)
+    def update_pokemons(new_pokemons)
         old_ids = self.pokemons.map{|pokemon|
             pokemon.id
         }
@@ -21,9 +21,6 @@ class Team < ApplicationRecord
         ids_to_add.each {|id|
             PokemonTeam.create(team_id:self.id, pokemon_id:id)
         }
-
         self
-
-        # self.pokemons = []
     end
 end
