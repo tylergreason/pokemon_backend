@@ -37,18 +37,24 @@ class Pokemon < ApplicationRecord
 
     def update_moves(params)
         # byebug
-        moves = [] 
-        params['activeMoves'].each {|move|
-            # byebug
-            self.set_move_active(move)
-            # new_active_move = PokemonMove.find_by(pokemon_id:self.id,move_id:move['id'])
+        old_ids = self.active_moves.map{|move| move.id}
+        new_ids = params['activeMoves'].map{|move|
+            move['id']
         }
-        # params['nonActiveMoves'].each {|move|
-        #     new_non_active_move = PokemonMove.find_by(pokemon_id:self.id,move_id:move['id'])
-        #     new_non_active_move.active = false 
-        #     new_non_active_move.save
-        # }
-        # byebug
+        ids_to_remove = old_ids - new_ids 
+        ids_to_add = new_ids - old_ids
+
+        ids_to_remove.each {|move_id|
+            pokemon_move_to_remove = PokemonMove.find_by(pokemon_id:self.id, move_id:move_id)
+            pokemon_move_to_remove.active = false 
+            pokemon_move_to_remove.save 
+        }
+
+        ids_to_add.each {|move_id|
+            pokemon_move_to_add = PokemonMove.find_by(pokemon_id:self.id, move_id:move_id)
+            pokemon_move_to_add.active = true 
+            pokemon_move_to_add.save 
+        }
         self
     end
 end

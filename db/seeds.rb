@@ -3,17 +3,28 @@ require 'faker'
 User.delete_all
 Team.delete_all 
 
+
+# reset all pokemon types 
+
+
 # natures 
-natures = PokeApi.get(:nature).results
-natures.each do |nature| 
-    name = nature.name
-    Nature.find_or_create_by(name:name) 
+# only seed natures if Nature.all is empty 
+if Nature.all.count == 0 
+    natures = PokeApi.get(:nature).results
+    natures.each do |nature| 
+        name = nature.name
+        Nature.find_or_create_by(name:name) 
+    end
 end
+
 # types 
-types = PokeApi.get(:type).results
-types.each do |type| 
-    name = type.name 
-    Type.find_or_create_by(name:name)
+# only seed types if Type.all is empty 
+if Type.all.count == 0 
+    types = PokeApi.get(:type).results
+    types.each do |type| 
+        name = type.name 
+        Type.find_or_create_by(name:name)
+    end
 end
 
 9.times do 
