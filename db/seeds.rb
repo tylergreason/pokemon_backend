@@ -28,28 +28,33 @@ if Type.all.count == 0
 end
 
 9.times do 
-    fetch_pokemon = PokeApi.get(pokemon: rand(150)+1)
-    name = fetch_pokemon.name 
-    number = fetch_pokemon.id
-    image_url = fetch_pokemon.sprites.front_default
-    new_pokemon = Pokemon.find_or_create_by(name:name,number:number,image_url:image_url)
-    # nature 
-    new_pokemon.natures << Nature.all.sample
-    # types
-    fetch_pokemon.types.each do |type| 
-        new_pokemon.types << Type.find_or_create_by(name: type.type.name)
-    end
-    # abilities
-    abilities =  fetch_pokemon.abilities
-    abilities.each do |result| 
-        new_ability = Ability.find_or_create_by(name:result.ability.name)
-        new_pokemon.abilities << new_ability
-    end
-    # moves 
-    moves = fetch_pokemon.moves 
-    moves.each do |result| 
-        new_move = Move.find_or_create_by(name: result.move.name)
-        new_pokemon.moves << new_move
+    pokemon_number = rand(150)+1
+    
+    if Pokemon.find_by(number: pokemon_number) == nil
+
+        fetch_pokemon = PokeApi.get(pokemon: pokemon_number)
+        name = fetch_pokemon.name 
+        number = fetch_pokemon.id
+        image_url = fetch_pokemon.sprites.front_default
+        new_pokemon = Pokemon.find_or_create_by(name:name,number:number,image_url:image_url)
+        # nature 
+        new_pokemon.natures << Nature.all.sample
+        # types
+        fetch_pokemon.types.each do |type| 
+            new_pokemon.types << Type.find_or_create_by(name: type.type.name)
+        end
+        # abilities
+        abilities =  fetch_pokemon.abilities
+        abilities.each do |result| 
+            new_ability = Ability.find_or_create_by(name:result.ability.name)
+            new_pokemon.abilities << new_ability
+        end
+        # moves 
+        moves = fetch_pokemon.moves 
+        moves.each do |result| 
+            new_move = Move.find_or_create_by(name: result.move.name)
+            new_pokemon.moves << new_move
+        end
     end
 end
 
@@ -57,7 +62,7 @@ end
 new_user = User.create(email:'test@mail.com', password:'test')
 
 # create a new team, then give that team to the test user 
-3.times do 
+4.times do 
     new_team = Team.create(name: Faker::Team.name, description: "Desc: " + Faker::Lorem.sentence(word_count: 3), user_id: User.all.sample.id)
     3.times do 
         random_pokemon = Pokemon.all.sample 
@@ -70,6 +75,11 @@ end
 
 # make 4 of each pokemon's moves active 
 Pokemon.all.each do |pokemon| 
+    # make each move not active 
+    PokemonMove.where(pokemon_id: pokemon.id, active:true).each {|pokemonMove|
+        pokemonMove.active = false 
+        pokemonMove.save 
+    }
     3.times do |time| 
         if pokemon.moves[time] != nil
             pokemon.set_move_active(pokemon.moves[time])
