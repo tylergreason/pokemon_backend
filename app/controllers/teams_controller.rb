@@ -7,7 +7,7 @@ class TeamsController < ApplicationController
         team_to_edit.update_pokemons(new_pokemons)
         team_to_return = Team.find_by_id(team_id)
         # byebug
-        render :json => team_to_return, :include => {:pokemons => {:include => [:types,:moves,:abilities,:natures,:active_moves]}}, :status => :ok 
+        render :json => team_to_return, :include => {:pokemons => {:include => [:types,:moves,:abilities,:natures,:active_moves, :non_active_moves]}}, :status => :ok 
     end
 
     def myteams 
