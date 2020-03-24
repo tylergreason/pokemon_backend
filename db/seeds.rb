@@ -80,7 +80,7 @@ Pokemon.all.each do |pokemon|
         pokemonMove.active = false 
         pokemonMove.save 
     }
-    3.times do |time| 
+    4.times do |time| 
         if pokemon.moves[time] != nil
             pokemon.set_move_active(pokemon.moves[time])
         end
