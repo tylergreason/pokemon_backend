@@ -5,6 +5,12 @@ class Team < ApplicationRecord
     has_many :pokemon_teams, dependent: :destroy 
     has_many :pokemons, through: :pokemon_teams
 
+    def update_name_and_desc(params)
+        self.name = params['name']
+        self.description = params['description']
+        self.save 
+    end
+
     def update_pokemons(new_pokemons)
         old_ids = self.pokemons.map{|pokemon|
             pokemon.id

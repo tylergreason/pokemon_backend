@@ -27,13 +27,13 @@ if Type.all.count == 0
     end
 end
 
-9.times do 
-    pokemon_number = rand(150)+1
+700.times do |time|
+    pokemon_number = time+1
     
     if Pokemon.find_by(number: pokemon_number) == nil
 
         fetch_pokemon = PokeApi.get(pokemon: pokemon_number)
-        name = fetch_pokemon.name 
+        name = fetch_pokemon.name.capitalize
         number = fetch_pokemon.id
         image_url = fetch_pokemon.sprites.front_default
         new_pokemon = Pokemon.find_or_create_by(name:name,number:number,image_url:image_url)
